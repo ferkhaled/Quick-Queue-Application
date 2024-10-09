@@ -1,0 +1,42 @@
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: "/api-ui"
+  api-docs:
+    enabled: true
+    path: "/api-json"
+
+server:
+  port: 9191
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    initialize: true
+    url: jdbc:postgresql://${db.host}:5432/postgres?currentSchema=quick_queue
+    username: ${db.username}
+    password: ${db.password}
+    hikari:
+      connectionTimeout: 20000
+      maximumPoolSize: 5
+  sql:
+    init:
+      schema-locations: classpath:schema-postgresql.sql
+      mode: always
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: "quick_queue"
+    hibernate:
+      ddl-auto: create
+      show-sql: true
+
+management:
+  server:
+    port: 9000
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
